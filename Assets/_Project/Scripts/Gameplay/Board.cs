@@ -4,21 +4,21 @@ public class Board : MonoBehaviour
 {
     [SerializeField] private GameObject _tilePrefab;
     [SerializeField] private GameObject _gemPrefab;
-    [SerializeField] private Vector2Int _spawnCell;
+
 
     // board
     [SerializeField] private int _boardColumns = 8;
     [SerializeField] private int _boardRows = 8;
-    GameObject[,] _boardTiles;
-    GameObject[,] _boardGems;
+    private GameObject[,] _boardTiles;
+    private GameObject[,] _boardGems;
 
-    void Awake()
+    private void Awake()
     {
         _boardTiles = new GameObject[_boardColumns, _boardRows]; //column = x, row = y
         _boardGems = new GameObject[_boardColumns, _boardRows];
     }
 
-    void Start()
+    private void Start()
     {
         CreateBoard();
     }
@@ -33,19 +33,18 @@ public class Board : MonoBehaviour
                 Vector3 tileSpawnPos = GetTileWorldSpawnPos(new Vector2Int(column,row));
 
                 GameObject boardTile = Instantiate(_tilePrefab, tileSpawnPos, Quaternion.identity, transform);
-                boardTile.name = $"Tile {column}, {row}";
+                boardTile.name = $"Tile ({column}, {row})";
                 _boardTiles[column, row] = boardTile;
-                //Debug.Log($"Spawned {boardTile.name} at {column}, {row}");
 
                 //spawm gem
                 GameObject gem = Instantiate(_gemPrefab, tileSpawnPos, Quaternion.identity, transform);
-                gem.name = $"Gem {column}, {row}";
+                gem.name = $"Gem ({column}, {row})";
                 _boardGems[column, row] = gem;
-                //Debug.Log($"Spawned {gem.name} at {column}, {row}");
             }
         }
 
         Debug.Log($"Spawned {_boardGems[5,2].name} at [5,2]");
+        Debug.Log($"Spawned {_boardGems.Length} gems and {_boardTiles.Length} tiles");
     }
 
     private Vector3 GetTileWorldSpawnPos(Vector2Int spawnCell)
