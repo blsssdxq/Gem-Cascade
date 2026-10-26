@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Board : MonoBehaviour
 {
@@ -14,11 +15,9 @@ public class Board : MonoBehaviour
 
     [SerializeField] private Camera _camera;
 
+
     private void Awake()
     {
-        //формула offset дошки - 4 5 
-
-
         _boardTiles = new GameObject[_boardColumns, _boardRows]; //column = x, row = y
         _boardGems = new GameObject[_boardColumns, _boardRows];
     }
@@ -54,7 +53,13 @@ public class Board : MonoBehaviour
 
     private Vector3 GetTileWorldSpawnPos(Vector2Int spawnCell)
     {
-        Vector3 tileWorldSpawnPos = new Vector3(spawnCell.x, spawnCell.y, 0f);
+        float tileOffsetX;
+        float tileOffsetY;
+
+        tileOffsetX = (_boardColumns - 1) /2f; //board offset x
+        tileOffsetY = (_boardRows -1 ) /2f; //board offset y
+
+        Vector3 tileWorldSpawnPos = new Vector3((spawnCell.x - tileOffsetX), (spawnCell.y - tileOffsetY), 0f);
 
         return tileWorldSpawnPos;   
     }
