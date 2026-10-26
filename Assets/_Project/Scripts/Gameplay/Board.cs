@@ -12,8 +12,13 @@ public class Board : MonoBehaviour
     private GameObject[,] _boardTiles;
     private GameObject[,] _boardGems;
 
+    [SerializeField] private Camera _camera;
+
     private void Awake()
     {
+        //формула offset дошки - 4 5 
+
+
         _boardTiles = new GameObject[_boardColumns, _boardRows]; //column = x, row = y
         _boardGems = new GameObject[_boardColumns, _boardRows];
     }

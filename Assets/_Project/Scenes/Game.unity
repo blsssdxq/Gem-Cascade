@@ -386,7 +386,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tilePrefab: {fileID: 2687608685291328577, guid: 8e09f342ec45cda41bfa248c8548d6ca, type: 3}
   _gemPrefab: {fileID: 5261914468777716103, guid: 3dfc0ef0060bb7540b1b6c815021f6fa, type: 3}
-  _tileSpawnPos: {x: 0, y: 0, z: 0}
+  _boardColumns: 8
+  _boardRows: 8
+  _camera: {fileID: 519420031}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
