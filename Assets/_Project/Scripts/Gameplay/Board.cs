@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class Board : MonoBehaviour
 {
@@ -14,12 +13,14 @@ public class Board : MonoBehaviour
     private GameObject[,] _boardGems;
 
     [SerializeField] private Camera _camera;
+    [SerializeField] private float _cameraOffset = 1f;
 
 
     private void Awake()
     {
         _boardTiles = new GameObject[_boardColumns, _boardRows]; //column = x, row = y
         _boardGems = new GameObject[_boardColumns, _boardRows];
+        _camera.orthographicSize = CalculateCameraSize();
     }
 
     private void Start()
@@ -62,6 +63,21 @@ public class Board : MonoBehaviour
         Vector3 tileWorldSpawnPos = new Vector3((spawnCell.x - tileOffsetX), (spawnCell.y - tileOffsetY), 0f);
 
         return tileWorldSpawnPos;   
+    }
+
+    private float CalculateCameraSize() 
+    {
+        float cameraSize; 
+
+        float xCameraSize;
+        float yCameraSize;
+
+        yCameraSize = _boardRows / 2f + _cameraOffset;
+        xCameraSize = (_boardColumns / 2f + _cameraOffset) / _camera.aspect;
+
+        cameraSize = Mathf.Max(xCameraSize, yCameraSize); 
+
+        return cameraSize;
     }
 
 }
