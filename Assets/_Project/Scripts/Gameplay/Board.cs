@@ -20,12 +20,12 @@ public class Board : MonoBehaviour
     {
         _boardTiles = new GameObject[_boardColumns, _boardRows]; //column = x, row = y
         _boardGems = new GameObject[_boardColumns, _boardRows];
-        _camera.orthographicSize = CalculateCameraSize();
     }
 
     private void Start()
     {
         CreateBoard();
+        _camera.orthographicSize = CalculateCameraSize();
     }
 
     private void CreateBoard()
