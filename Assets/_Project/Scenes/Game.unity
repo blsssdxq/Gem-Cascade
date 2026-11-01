@@ -389,6 +389,7 @@ MonoBehaviour:
   _boardColumns: 8
   _boardRows: 8
   _camera: {fileID: 519420031}
+  _cameraOffset: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
