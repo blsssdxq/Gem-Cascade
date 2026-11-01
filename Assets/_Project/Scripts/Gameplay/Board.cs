@@ -32,42 +32,37 @@ public class Board : MonoBehaviour
     {
         for (int column = 0; column < _boardTiles.GetLength(0); column++)
         {
-            for (int row = 0; row <_boardTiles.GetLength(1); row++)
+            for (int row = 0; row < _boardTiles.GetLength(1); row++)
             {
                 // spawn tile
-                Vector3 tileSpawnPos = GetTileWorldSpawnPos(new Vector2Int(column,row));
+                Vector3 tileSpawnPos = GetTileWorldSpawnPos(new Vector2Int(column, row));
 
                 GameObject boardTile = Instantiate(_tilePrefab, tileSpawnPos, Quaternion.identity, transform);
                 boardTile.name = $"Tile ({column}, {row})";
                 _boardTiles[column, row] = boardTile;
 
-                //spawm gem
+                //spawn gem
                 GameObject gem = Instantiate(_gemPrefab, tileSpawnPos, Quaternion.identity, transform);
                 gem.name = $"Gem ({column}, {row})";
                 _boardGems[column, row] = gem;
             }
         }
 
-        Debug.Log($"Spawned {_boardGems[5,2].name} at [5,2]");
         Debug.Log($"Spawned {_boardGems.Length} gems and {_boardTiles.Length} tiles");
     }
 
     private Vector3 GetTileWorldSpawnPos(Vector2Int spawnCell)
     {
-        float tileOffsetX;
-        float tileOffsetY;
+        Vector2 offset = GetBoardOffset();
 
-        tileOffsetX = (_boardColumns - 1) /2f; //board offset x
-        tileOffsetY = (_boardRows -1 ) /2f; //board offset y
+        Vector3 tileWorldSpawnPos = new Vector3((spawnCell.x - offset.x), (spawnCell.y - offset.y), 0f);
 
-        Vector3 tileWorldSpawnPos = new Vector3((spawnCell.x - tileOffsetX), (spawnCell.y - tileOffsetY), 0f);
-
-        return tileWorldSpawnPos;   
+        return tileWorldSpawnPos;
     }
 
-    private float CalculateCameraSize() 
+    private float CalculateCameraSize()
     {
-        float cameraSize; 
+        float cameraSize;
 
         float xCameraSize;
         float yCameraSize;
@@ -75,9 +70,27 @@ public class Board : MonoBehaviour
         yCameraSize = _boardRows / 2f + _cameraOffset;
         xCameraSize = (_boardColumns / 2f + _cameraOffset) / _camera.aspect;
 
-        cameraSize = Mathf.Max(xCameraSize, yCameraSize); 
+        cameraSize = Mathf.Max(xCameraSize, yCameraSize);
 
         return cameraSize;
+    }
+
+    private Vector2Int GetTileBoardPos(Vector3 worldPos)
+    {
+        Vector2 offset = GetBoardOffset();
+
+        int column = Mathf.RoundToInt(worldPos.x + offset.x);
+        int row = Mathf.RoundToInt(worldPos.y + offset.y);
+
+        return new Vector2Int(column, row);
+    }
+
+    private Vector2 GetBoardOffset()
+    {
+        float boardOffsetX = (_boardColumns - 1) / 2f;
+        float boardOffsetY = (_boardRows - 1) / 2f;
+
+        return new Vector2(boardOffsetX, boardOffsetY);
     }
 
 }
