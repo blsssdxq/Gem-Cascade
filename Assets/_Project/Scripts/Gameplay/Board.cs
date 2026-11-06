@@ -15,6 +15,9 @@ public class Board : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private float _cameraOffset = 1f;
 
+    //gem colors
+    [SerializeField] private Color [] _gemColors;
+
 
     private void Awake()
     {
@@ -42,13 +45,38 @@ public class Board : MonoBehaviour
                 _boardTiles[column, row] = boardTile;
 
                 //spawn gem
-                GameObject gem = Instantiate(_gemPrefab, tileSpawnPos, Quaternion.identity, transform);
-                gem.name = $"Gem ({column}, {row})";
+                GameObject gem = SpawnGem(new Vector2Int(column,row));
+
                 _boardGems[column, row] = gem;
             }
         }
 
         Debug.Log($"Spawned {_boardGems.Length} gems and {_boardTiles.Length} tiles");
+    }
+
+    private GameObject SpawnGem(Vector2Int cell)
+    {
+        Vector3 position = GetTileWorldSpawnPos(cell); 
+        GameObject gem = Instantiate(_gemPrefab, position, Quaternion.identity, transform);
+        GemType gemType = GetRandomGemType();
+        SpriteRenderer gemRenderer = gem.GetComponent<SpriteRenderer>();
+        gemRenderer.color =  GetGemColor(gemType);
+        gem.name = $"Gem ({cell.x}, {cell.y}) {gemType}";
+
+        return gem;
+    }
+
+    private Color GetGemColor(GemType gemType)
+    {
+        return _gemColors[(int)gemType]; 
+    }
+    
+    private GemType GetRandomGemType()
+    {
+        int randomGemColor = Random.Range(0, _gemColors.Length);
+        
+        GemType gemType = (GemType)randomGemColor;
+        return gemType;
     }
 
     private Vector3 GetTileWorldSpawnPos(Vector2Int spawnCell)
